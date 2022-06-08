@@ -9,6 +9,7 @@ module.exports = {
       email: UserSchema.email,
       username: UserSchema.username,
       password: UserSchema.password,
+      role: UserSchema.role,
       recoveryToken: UserSchema.recoveryToken,
       createdAt: UserSchema.createdAt,
       updatedAt: UserSchema.updatedAt,
