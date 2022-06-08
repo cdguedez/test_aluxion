@@ -1,7 +1,7 @@
 const express = require('express')
 const authRouter = require('./auth.routes')
 const usersRouter = require('./users.routes')
-
+const filesRouter = require('./files.routes')
 class RouterApi {
   constructor(app) {
     this.app = app
@@ -13,6 +13,7 @@ class RouterApi {
     app.use('/api/v1', router)
     router.use('/auth', authRouter)
     router.use('/users', usersRouter)
+    router.use('/files', filesRouter)
   }
 
 }
