@@ -21,18 +21,15 @@ class AuthService {
   }
 
   async register(data) {
-    const hash = await bcrypt.hash(data.user.password, 10)
+    const hash = await bcrypt.hash(data.password, 10)
     const newData = {
       ...data,
-      user: {
-        ...data.user,
-        password: hash
-      }
+      password: hash
     }
-    const newCustomer = await models.Customer.create(newData, { include: ['user'] })
-    delete newCustomer.dataValues.user.dataValues.password
-    const sendMail = await this.sendRegister(newCustomer.dataValues.user.dataValues.email)
-    return { newCustomer, sendMail }
+    const newUser = await models.User.create(newData)
+    delete newUser.dataValues.password
+    const sendMail = await this.sendRegister(newUser.dataValues.email)
+    return { newUser, sendMail }
   }
 
   signTokenAuth(user) {
@@ -52,7 +49,15 @@ class AuthService {
       if(isMatch) throw boom.notAcceptable('the password has been used before')
       const hash = await bcrypt.hash(newPassword, 10)
       await service.update(user.id, { recoveryToken: null, password: hash })
-      return { message: 'password changed' }
+      const info = {
+        from: `"Sistema de archivos cdguedez" ${config.smtpEmail}`, // sender address
+        to: `${user.email}`, // list of receivers
+        subject: `Hola ${user.userName} has cambiado tu contraseña de forma exitosa.`, // Subject line
+        text: `Has cambiado tu contraseña de forma exitosa, ya puedes ingresar de nuevo.`, // plain text body
+        html: `<b>Has cambiado tu contraseña de forma exitosa, ya puedes ingresar de nuevo.</b>`, // html body
+      }
+      const rta = await this.sendMail(info)
+      return { message: 'password changed', rta }
     } catch (error) {
       throw boom.unauthorized('unauthorized')
     }
@@ -60,11 +65,11 @@ class AuthService {
 
   async sendRegister(email) {
     const info = {
-      from: `"Carlos Guedez 👻" ${config.smtpEmail}`, // sender address
+      from: `"Sistema de archivos cdguedez" ${config.smtpEmail}`, // sender address
       to: email,
-      subject: `hello, you have registered in api-store-cdguedez`,
-      text: `We welcome you to our virtual store. Automate your purchase orders and increase your profits.`,
-      html: `<main><h1>We welcome you to our virtual store</h1><p>Automate your purchase orders and increase your profits</p></main>`,
+      subject: `Gracias por registrarte en nuestro sistema de archivos de Nodejs`,
+      text: `Hola, te damos la bienvenida al Sistema de archivos de Nodejs.`,
+      html: `<main><h1>Hola, te damos la bienvenida.</h1><p>Gracias por registrarte un nuestro sistema de archivos de Nodejs</p></main>`,
     }
     const rta = await this.sendMail(info)
     return rta
@@ -77,11 +82,11 @@ class AuthService {
     const link = `http://localhost:3000/recovery?token=${token}`
     await service.update(user.id, { recoveryToken: token })
     const info = {
-      from: `"Carlos Guedez 👻" ${config.smtpEmail}`, // sender address
+      from: `"Sistema de archivos cdguedez" ${config.smtpEmail}`, // sender address
       to: `${user.email}`, // list of receivers
-      subject: `Hello ${user.userName} this email its for recovery password`, // Subject line
-      text: "get into in this link for password changed", // plain text body
-      html: `<b>get into in this <a href=${link}>Link</a> for password changed  </b>`, // html body
+      subject: `Hola ${user.userName} has solicitado recuperar tu contraseña`, // Subject line
+      text: `Has solicitado cambiar tu contraseña en nuestro sistema de archivos. ingresa en ${link} para cambiarla`, // plain text body
+      html: `<b>Has solicitado cambiar tu contraseña en nuestro sistema de archivos. ingresa en el siguiente <a href=${link}>Link</a> para cambiarla</b>`, // html body
     }
     const rta = await this.sendMail(info)
     return rta

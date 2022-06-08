@@ -4,6 +4,8 @@ const email = Joi.string().email()
 const username = Joi.string().min(5).max(20)
 const password = Joi.string().min(8)
 const role = Joi.string().valid('admin', 'customer')
+const token = Joi.string().min(20)
+const newPassword = Joi.string().min(8)
 
 const login = Joi.object({
   email: email.required(),
@@ -21,4 +23,9 @@ const recovery = Joi.object({
   email: email.required()
 })
 
-module.exports = { login, register, recovery }
+const resetPassword = Joi.object({
+  token: token.required(),
+  newPassword: newPassword.required()
+})
+
+module.exports = { login, register, recovery, resetPassword }
