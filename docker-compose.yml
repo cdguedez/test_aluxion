@@ -1,0 +1,13 @@
+version: '3.3'
+
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE=test_aluxion
+      - MYSQL_ROOT_PASSWORD=Admin123
+      - MYSQL_PORT=3306
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql_data:/var/lib/mysql
