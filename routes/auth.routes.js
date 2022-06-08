@@ -2,7 +2,7 @@ const express = require('express'),
       router = express.Router(),
       passport = require('passport'),
       validator = require('./../midlewares/validator.handler'),
-      { login, register, recovery } = require('./../schemas/auth.schema'),
+      { login, register, recovery, resetPassword } = require('./../schemas/auth.schema'),
       authService = require('./../services/auth.service'),
       service = new authService()
 
@@ -53,6 +53,7 @@ router.post('/recovery',
 )
 
 router.post('/reset-password',
+  validator.validatorHandler(resetPassword, 'body'),
   async (req, res, next) => {
     try {
       const { token, newPassword } = req.body

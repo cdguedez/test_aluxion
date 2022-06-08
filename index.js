@@ -1,12 +1,19 @@
 require('dotenv').config()
 const express = require('express')
+const fileUpload = require('express-fileupload')
 const RouterApi = require('./routes')
 const Middleware = require('./midlewares/error.handler')
 const app = express()
 const cors = require('cors')
 const port = process.env.PORT || 3000
+const config = require('./config/config')
 
 app.use(express.json())
+app.use(fileUpload({
+  useTempFiles: true,
+  tempFileDir: '/tmp/',
+  debug: config.env === 'dev' ? true : false
+}))
 
 const whiteList = ['http://localhost:3000', 'http://localhost:3001']
 const options = {
