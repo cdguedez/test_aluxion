@@ -10,7 +10,6 @@ const FilesSchema = {
   },
   name: {
     allowNull: false,
-    unique: true,
     type: DataTypes.STRING(100),
   },
   urlImage: {
