@@ -2,11 +2,28 @@ const express = require('express')
 const passport = require('passport')
 const router = express.Router()
 const { VerifyFile } = require('./../midlewares/validatorFile.handler')
+const validator = require('./../midlewares/validator.handler')
+const { upload } = require('./../schemas/files.schema')
 const filesService = require('../services/files.service')
 const service = new filesService()
 
+router.get('/',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    try {
+      const data = await service.find()
+      res
+        .status(200)
+        .json({ data })
+    } catch (error) {
+      next(error)
+    }
+  }
+)
+
 router.post('/upload',
-passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false }),
+  validator.validatorHandler(upload, 'files'),
   VerifyFile,
   async (req, res, next) => {
     try {
@@ -20,5 +37,6 @@ passport.authenticate('jwt', { session: false }),
     }
   }
 )
+
 
 module.exports = router
