@@ -1,14 +1,13 @@
-const { uploadFileToAWS } = require('./.././utils/aws/s3')
+const { uploadFileToAWS, renameFileToAWS } = require('./.././utils/aws/s3')
 const { models } = require('../libs/sequelize')
 const boom = require('@hapi/boom')
 class FilesService {
+
   async upload(files, user) {
     const { file } = files
     const { sub } = user
     const userMatch = await models.User.findOne({ where: { id: sub } })
-    if(!userMatch) {
-      throw boom.notFound('Associated user not exist')
-    }
+    if(!userMatch) throw boom.notFound('Associated user not exist')
     const result = await uploadFileToAWS(file)
     const save = await models.File.create({ name: result.Key, urlImage: result.Location, userId: sub })
     delete save.dataValues.createdAt
@@ -23,14 +22,13 @@ class FilesService {
 
   async update(id, data) {
     const file = await models.File.findOne({ where: { id } })
-    if(!file) {
-      throw boom.notFound('File not found')
-    }
-    const newNameFile= file.update({ name: data })
+    if(!file) throw boom.notFound('File not found')
 
-    return newNameFile
+    const renameFile = await renameFileToAWS(data, file)
+    const updateFile = await file.update({ name: renameFile.newKey, urlImage: renameFile.newUrlImage })
+
+    return { message: `name file changed of ${renameFile.oldKey} to ${renameFile.newKey}`, file: updateFile }
   }
-
 
 }
 module.exports = FilesService
