@@ -84,7 +84,7 @@ class AuthService {
     const info = {
       from: `"Sistema de archivos cdguedez" ${config.smtpEmail}`, // sender address
       to: `${user.email}`, // list of receivers
-      subject: `Hola ${user.userName} has solicitado recuperar tu contraseña`, // Subject line
+      subject: `Hola ${user.username} has solicitado recuperar tu contraseña`, // Subject line
       text: `Has solicitado cambiar tu contraseña en nuestro sistema de archivos. ingresa en ${link} para cambiarla`, // plain text body
       html: `<b>Has solicitado cambiar tu contraseña en nuestro sistema de archivos. ingresa en el siguiente <a href=${link}>Link</a> para cambiarla</b>`, // html body
     }
