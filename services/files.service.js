@@ -21,6 +21,16 @@ class FilesService {
     return files
   }
 
+  async update(id, data) {
+    const file = await models.File.findOne({ where: { id } })
+    if(!file) {
+      throw boom.notFound('File not found')
+    }
+    const newNameFile= file.update({ name: data })
+
+    return newNameFile
+  }
+
 
 }
 module.exports = FilesService

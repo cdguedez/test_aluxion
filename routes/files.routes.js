@@ -3,7 +3,7 @@ const passport = require('passport')
 const router = express.Router()
 const { VerifyFile } = require('./../midlewares/validatorFile.handler')
 const validator = require('./../midlewares/validator.handler')
-const { upload } = require('./../schemas/files.schema')
+const { uploadFile, getFile, updateFile } = require('./../schemas/files.schema')
 const filesService = require('../services/files.service')
 const service = new filesService()
 
@@ -23,7 +23,7 @@ router.get('/',
 
 router.post('/upload',
   passport.authenticate('jwt', { session: false }),
-  validator.validatorHandler(upload, 'files'),
+  validator.validatorHandler(uploadFile, 'files'),
   VerifyFile,
   async (req, res, next) => {
     try {
@@ -31,6 +31,24 @@ router.post('/upload',
       const file = await service.upload(files, user)
       res
         .status(201)
+        .json({ data: file })
+    } catch (error) {
+      next(error)
+    }
+  }
+)
+
+router.patch('/:id',
+  passport.authenticate('jwt', { session: false }),
+  validator.validatorHandler(getFile, 'params'),
+  validator.validatorHandler(updateFile, 'body' ),
+  async (req, res, next) => {
+    try {
+      const { name } = req.body
+      const { id } = req.params
+      const file = await service.update(id, name)
+      res
+        .status(200)
         .json({ data: file })
     } catch (error) {
       next(error)
