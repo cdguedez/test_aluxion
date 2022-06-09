@@ -9,7 +9,7 @@ const service = new UsersService
 
 router.get('/',
   passport.authenticate('jwt', { session: false }),
-  checkRole('admin'),
+  checkRole('customer', 'admin'),
   async (req, res, next) => {
     try {
       const users = await service.find()
@@ -26,7 +26,7 @@ router.get('/',
 
 router.get('/:id',
   passport.authenticate('jwt', { session: false }),
-  checkRole('admin'),
+  checkRole('customer', 'admin'),
   validator.validatorHandler(getUser, 'params'),
   async (req, res, next) => {
     try {
@@ -46,7 +46,7 @@ router.get('/:id',
 
 router.post('/',
   passport.authenticate('jwt', { session: false }),
-  checkRole('admin'),
+  checkRole('customer', 'admin'),
   validator.validatorHandler(createUser, 'body'),
   async (req, res, next) => {
     try {
@@ -65,7 +65,7 @@ router.post('/',
 
 router.patch('/:id',
   passport.authenticate('jwt', { session: false }),
-  checkRole('admin'),
+  checkRole('customer', 'admin'),
   validator.validatorHandler(getUser, 'params'),
   validator.validatorHandler(updateUser, 'body'),
   async (req, res, next) => {
@@ -86,7 +86,7 @@ router.patch('/:id',
 
 router.delete('/:id',
   passport.authenticate('jwt', { session: false }),
-  checkRole('admin'),
+  checkRole('customer', 'admin'),
   validator.validatorHandler(deleteUser, 'params'),
   async (req, res, next) => {
     try {
