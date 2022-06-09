@@ -8,7 +8,7 @@ const cors = require('cors')
 const port = process.env.PORT || 3000
 const config = require('./config/config')
 const swaggerUI = require('swagger-ui-express')
-const swaggerDoc = require('./swaggerDoc.json')
+const swaggerDoc = require('./openapi.json')
 
 app.use(express.json())
 app.use(fileUpload({

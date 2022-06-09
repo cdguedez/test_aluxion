@@ -12,7 +12,8 @@ class Middleware {
       .json({
         error: {
           statusCode: 500,
-          message: "internal server error",
+          error: "Internal Server Error",
+          message: "Internal Server Error",
           details: err.stack
         }
       })
@@ -21,10 +22,11 @@ class Middleware {
   static boomErrorHandler(err, req, res, next) {
     if(err.isBoom) {
       const { output } = err
+      const { payload } = output
       return res
         .status(output.statusCode)
         .json({
-          error: output.payload
+          error: { ...payload, details: "" }
         })
     }
     next(err)
@@ -36,6 +38,7 @@ class Middleware {
         .status(409)
         .json({
           statusCode: 409,
+          error: err.name,
           message: err.name,
           details: err.errors[0].message
         })
