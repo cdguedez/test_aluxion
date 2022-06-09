@@ -1,0 +1,413 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "API ALUXION TEST"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3001/api/v1/",
+      "description": "Entorno de Desarrollo"
+    }
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Registro de usuario",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Register"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "error de servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error500"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Message Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error40X"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Login de usuario",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "error de servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error500"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Message Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error40X"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/file/upload": {
+      "post": {
+        "tags": [
+          "File"
+        ],
+        "summary": "Subir archivo",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UploadFile"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadFileResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "error de servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error500"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Message Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error40X"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "sortParam": {
+        "name": "sort",
+        "in": "query",
+        "description": " ordenacion",
+        "example": "+fecha -nombre",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "limitParam": {
+        "name": "limit",
+        "in": "query",
+        "description": "número de resultados a obtener",
+        "example": 50,
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "skipParam": {
+        "name": "skip",
+        "in": "query",
+        "description": "número de resultados desde el que partir",
+        "example": 0,
+        "schema": {
+          "type": "integer"
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Register": {
+        "type": "object",
+        "required": [
+          "email",
+          "username",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "account@domain.com"
+          },
+          "username": {
+            "type": "string",
+            "example": "account"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "example": "password"
+          }
+        }
+      },
+      "RegisterResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "properties": {
+              "newUser": {
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "account@domain.com"
+                  },
+                  "username": {
+                    "type": "string",
+                    "example": "username"
+                  },
+                  "role": {
+                    "type": "string",
+                    "example": "admin"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2020-01-01T00:00:00.000Z"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2020-01-01T00:00:00.000Z"
+                  }
+                }
+              },
+              "sendMail": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "email",
+                  "example": "account@domain.com"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Login": {
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "account@domain.com"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "example": "password"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "properties": {
+              "user": {
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "account@domain.com"
+                  },
+                  "username": {
+                    "type": "string",
+                    "example": "username"
+                  },
+                  "role": {
+                    "type": "string",
+                    "example": "admin"
+                  }
+                }
+              },
+              "token": {
+                "type": "string",
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+              }
+            }
+          }
+        }
+      },
+      "UploadFile": {
+        "type": "object",
+        "required": [
+          "file"
+        ],
+        "properties": {
+          "file": {
+            "type": "string",
+            "format": "binary"
+          }
+        }
+      },
+      "UploadFileResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "properties": {
+              "id": {
+                "type": "integer",
+                "example": 1
+              },
+              "name": {
+                "type": "string",
+                "example": "file.jpg"
+              },
+              "urlImage": {
+                "type": "string",
+                "example": "https://bucket-name.s3.amazonaws.com/file.jpg"
+              },
+              "userId": {
+                "type": "integer",
+                "example": 1
+              }
+            }
+          }
+        }
+      },
+      "Error40X": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "properties": {
+              "statusCode": {
+                "type": "integer",
+                "example": 400
+              },
+              "error": {
+                "type": "string",
+                "example": "Message Error"
+              },
+              "message": {
+                "type": "string",
+                "example": "Message Error"
+              },
+              "details": {
+                "type": "string",
+                "example": "Details Error"
+              }
+            }
+          }
+        }
+      },
+      "Error500": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "properties": {
+              "statusCode": {
+                "type": "integer",
+                "example": 500
+              },
+              "error": {
+                "type": "string",
+                "example": "Message Error"
+              },
+              "message": {
+                "type": "string",
+                "example": "Message Error"
+              },
+              "details": {
+                "type": "string",
+                "example": "Details Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
