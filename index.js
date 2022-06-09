@@ -7,6 +7,8 @@ const app = express()
 const cors = require('cors')
 const port = process.env.PORT || 3000
 const config = require('./config/config')
+const swaggerUI = require('swagger-ui-express')
+const swaggerDoc = require('./swaggerDoc.json')
 
 app.use(express.json())
 app.use(fileUpload({
@@ -29,6 +31,7 @@ const options = {
 app.use(cors(options))
 require('./utils/auth')
 new RouterApi(app)
+app.use('/api/v1/docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc))
 app.use(Middleware.errorLog)
 app.use(Middleware.sqlErrorHamdler)
 app.use(Middleware.boomErrorHandler)
