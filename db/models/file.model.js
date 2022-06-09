@@ -10,7 +10,6 @@ const FilesSchema = {
   },
   name: {
     allowNull: false,
-    unique: true,
     type: DataTypes.STRING(100),
   },
   urlImage: {
@@ -21,7 +20,6 @@ const FilesSchema = {
   userId: {
     allowNull: false,
     type: DataTypes.INTEGER,
-    unique: true,
     field: 'user_id',
     references: {
       model: USERS_TABLE,

@@ -39,28 +39,24 @@ class AuthService {
   }
 
   async resetPassword(token, newPassword) {
-    try {
-      const payload = jwt.verify(token, config.keyScret)
-      const user = await service.findOne(payload.sub)
-      if(user.recoveryToken !== token) {
-        throw boom.unauthorized('unauthorized')
-      }
-      const isMatch = await bcrypt.compare(newPassword, user.password)
-      if(isMatch) throw boom.notAcceptable('the password has been used before')
-      const hash = await bcrypt.hash(newPassword, 10)
-      await service.update(user.id, { recoveryToken: null, password: hash })
-      const info = {
-        from: `"Sistema de archivos cdguedez" ${config.smtpEmail}`, // sender address
-        to: `${user.email}`, // list of receivers
-        subject: `Hola ${user.userName} has cambiado tu contraseña de forma exitosa.`, // Subject line
-        text: `Has cambiado tu contraseña de forma exitosa, ya puedes ingresar de nuevo.`, // plain text body
-        html: `<b>Has cambiado tu contraseña de forma exitosa, ya puedes ingresar de nuevo.</b>`, // html body
-      }
-      const rta = await this.sendMail(info)
-      return { message: 'password changed', rta }
-    } catch (error) {
+    const payload = jwt.verify(token, config.keyScret)
+    const user = await service.findOne(payload.sub)
+    if(user.recoveryToken !== token) {
       throw boom.unauthorized('unauthorized')
     }
+    const isMatch = await bcrypt.compare(newPassword, user.password)
+    if(isMatch) throw boom.notAcceptable('the password has been used before')
+    const hash = await bcrypt.hash(newPassword, 10)
+    await service.update(user.id, { recoveryToken: null, password: hash })
+    const info = {
+      from: `"Sistema de archivos cdguedez" ${config.smtpEmail}`, // sender address
+      to: `${user.email}`, // list of receivers
+      subject: `Hola ${user.username} has cambiado tu contraseña de forma exitosa.`, // Subject line
+      text: `Has cambiado tu contraseña de forma exitosa, ya puedes ingresar de nuevo.`, // plain text body
+      html: `<b>Has cambiado tu contraseña de forma exitosa, ya puedes ingresar de nuevo.</b>`, // html body
+    }
+    const rta = await this.sendMail(info)
+    return { message: 'password changed', rta }
   }
 
   async sendRegister(email) {
@@ -84,7 +80,7 @@ class AuthService {
     const info = {
       from: `"Sistema de archivos cdguedez" ${config.smtpEmail}`, // sender address
       to: `${user.email}`, // list of receivers
-      subject: `Hola ${user.userName} has solicitado recuperar tu contraseña`, // Subject line
+      subject: `Hola ${user.username} has solicitado recuperar tu contraseña`, // Subject line
       text: `Has solicitado cambiar tu contraseña en nuestro sistema de archivos. ingresa en ${link} para cambiarla`, // plain text body
       html: `<b>Has solicitado cambiar tu contraseña en nuestro sistema de archivos. ingresa en el siguiente <a href=${link}>Link</a> para cambiarla</b>`, // html body
     }
