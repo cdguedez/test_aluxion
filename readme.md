@@ -49,7 +49,7 @@
 
 ## Variables de entorno para la API
 
-En el archivo de ejemplo [env.example](.env.example) se muestran las variables de entorno que se necesitaran para que el proyecto funcione, mediante correo electronico les enviare las credenciales de la API de Unplash.
+En el archivo de ejemplo [env.example](/.env.example) se muestran las variables de entorno que se necesitaran para que el proyecto funcione, mediante correo electronico les enviare las credenciales de la API de Unplash.
 
 ## clonar el proyecto
 
@@ -66,3 +66,7 @@ Comando para instalar las dependencias del proyecto.
 ```shell
 npm install
 ```
+
+## Docker-compose.yml
+
+En el archivo [docker-compose.yml](/docker-compose.yml)

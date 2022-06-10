@@ -164,7 +164,6 @@ $RECYCLE.BIN/
 *.msp
 
 # Ingnore files created by dev
-#docker-compose.yml
+docker-compose.yml
 newrelic_agent.log
 mysql_data
-
