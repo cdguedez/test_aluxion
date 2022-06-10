@@ -20,7 +20,7 @@
   
   - user_id: id del usuario que subio el archivo.
   - name: Nombre del archivo.
-  - urlImage: URI de la imagen en AWS. 
+  - urlImage: URI de la imagen en AWS.
 
 ✔️ Descarga de archivos desde S3.
 
@@ -139,3 +139,5 @@ Puedes ver la documentacion de la API en el siguiente enlace
 ```http
 http://localhost:3001/api/v1/docs
 ```
+
+***NOTA***: se debe cambiar el puerto de la api y por lo tanto de su documentacion puede variar segun las variables de entornos que configures [.env](/.env.example)
