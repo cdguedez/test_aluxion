@@ -18,6 +18,7 @@ const config = {
   awsSecret: process.env.AWS_SECRET,
   awsKey: process.env.AWS_KEY,
   awsBucket: process.env.AWS_BUCKET,
+  upAccessKey: process.env.UP_ACCESS_KEY,
 }
 
 module.exports = config
