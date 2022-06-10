@@ -10,10 +10,10 @@ router.get('/',
   checkRole('customer', 'admin'),
   async(req,res, next) => {
     try {
-      const { response } = await service.listPhotos(req.query)
+      const result = await service.listPhotos(req.query)
       res
         .status(200)
-        .json({ data: response })
+        .json({ data: result })
     } catch (error) {
       next(error)
     }
