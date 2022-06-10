@@ -56,17 +56,78 @@ En el archivo de ejemplo [env.example](/.env.example) se muestran las variables 
 Para clonar el proyecto ejecutar el siguiente comando.
 
 ```shell
-git clone https://github.com/cdguedez/test_aluxion.git
+❯ git clone https://github.com/cdguedez/test_aluxion.git
 ```
 
 ## Instalacion de dependencias
 
-Comando para instalar las dependencias del proyecto.
+Una vez clonado ingresamos al directorio de nuestro proyecto y ejecutamos.
 
 ```shell
-npm install
+❯ npm install
 ```
 
-## Docker-compose.yml
+## Archivo docker-compose.yml
 
-En el archivo [docker-compose.yml](/docker-compose.yml)
+Crea un archivo en la raiz del proyecto llamado ***docker-compose.yml*** con el siguiente contenido.
+
+```docker
+version: '3.3'
+
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE=#DB_NAME
+      - MYSQL_ROOT_PASSWORD=#DB_PASSWORD
+      - MYSQL_PORT=3306
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+
+```
+
+***NOTA***: se debe cambiar ***DB_NAME*** y ***DB_PASSWORD*** por los nombres en tu archivo [.env](/.env)
+
+Iniciamos el contenedor con el comando
+
+```shell
+❯ docker-compose up -d mysql
+```
+
+## Migraciones
+
+En la raiz de nuestro proyecto ejecutaremos el siguiente comando.
+
+```shell
+❯ npm run db:migrate
+```
+
+Obtendremos la siguiente respuesta en nuestra terminal
+
+```shell
+❯ npm run db:migrate
+
+> api-aluxion@1.0.0 db:migrate
+> npx sequelize-cli db:migrate
+
+
+Sequelize CLI [Node: 18.2.0, CLI: 6.4.1, ORM: 6.20.1]
+
+Loaded configuration file "db/config.js".
+Using environment "development".
+== 20211130225004-create-users: migrating =======
+== 20211130225004-create-users: migrated (0.112s)
+
+== 20220608162411-create-files: migrating =======
+== 20220608162411-create-files: migrated (0.065s)
+```
+
+## Iniciar proyecto
+
+una vez tenemos lo necesario ejecutamos el siguiente comando
+
+```shell
+❯ npm run dev
+```
