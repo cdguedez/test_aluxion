@@ -56,7 +56,7 @@ En el archivo de ejemplo [env.example](/.env.example) se muestran las variables 
 Para clonar el proyecto ejecutar el siguiente comando.
 
 ```shell
-❯ git clone https://github.com/cdguedez/test_aluxion.git
+git clone https://github.com/cdguedez/test_aluxion.git
 ```
 
 ## Instalacion de dependencias
@@ -64,7 +64,7 @@ Para clonar el proyecto ejecutar el siguiente comando.
 Una vez clonado ingresamos al directorio de nuestro proyecto y ejecutamos.
 
 ```shell
-❯ npm install
+npm install
 ```
 
 ## Archivo docker-compose.yml
@@ -88,12 +88,12 @@ services:
 
 ```
 
-***NOTA***: se debe cambiar ***DB_NAME*** y ***DB_PASSWORD*** por los nombres en tu archivo [.env](/.env)
+***NOTA***: se debe cambiar ***DB_NAME*** y ***DB_PASSWORD*** por los nombres en tu archivo [.env](/.env.example)
 
 Iniciamos el contenedor con el comando
 
 ```shell
-❯ docker-compose up -d mysql
+docker-compose up -d mysql
 ```
 
 ## Migraciones
@@ -101,13 +101,13 @@ Iniciamos el contenedor con el comando
 En la raiz de nuestro proyecto ejecutaremos el siguiente comando.
 
 ```shell
-❯ npm run db:migrate
+npm run db:migrate
 ```
 
 Obtendremos la siguiente respuesta en nuestra terminal
 
 ```shell
-❯ npm run db:migrate
+npm run db:migrate
 
 > api-aluxion@1.0.0 db:migrate
 > npx sequelize-cli db:migrate
@@ -129,5 +129,13 @@ Using environment "development".
 una vez tenemos lo necesario ejecutamos el siguiente comando
 
 ```shell
-❯ npm run dev
+npm run dev
+```
+
+## DOCUMENTACION CON SWAGGER
+
+Puedes ver la documentacion de la API en el siguiente enlace
+
+```http
+http://localhost:3001/api/v1/docs
 ```
