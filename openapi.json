@@ -316,7 +316,7 @@
         "tags": [
           "File"
         ],
-        "summary": "ver todos los archivo",
+        "summary": "Actualizar un archivo (INCOMPLETO EN SWAGGER) funcional en la API",
         "description": "",
         "requestBody": {
           "content": {
@@ -334,6 +334,56 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/getFileResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "error de servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error500"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Message Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error40X"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/unplash": {
+      "get": {
+        "tags": [
+          "images unplash"
+        ],
+        "summary": "resultado de la busqueda de imagenes en unplash, (INCOMPLETO EN SWAGGER) funcional en la API",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/getImagesUnplash"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getImagesUnplashResponse"
                 }
               }
             }
