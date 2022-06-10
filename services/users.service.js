@@ -38,7 +38,7 @@ class UsersService {
       attributes: { exclude: ['createdAt', 'updatedAt'] }
     })
     if(!user) {
-      throw boom.unauthorized('Unauthorized')
+      throw boom.unauthorized('Credentials do not match')
     }
     return user
   }

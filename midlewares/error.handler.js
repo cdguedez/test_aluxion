@@ -39,8 +39,8 @@ class Middleware {
         .json({
           statusCode: 409,
           error: err.name,
-          message: err.name,
-          details: err.errors[0].message
+          message: err.errors[0].message,
+          details: err.errors[0].type
         })
     }
     next(err)

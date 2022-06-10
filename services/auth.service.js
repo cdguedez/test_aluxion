@@ -13,7 +13,7 @@ class AuthService {
     const user = await service.findByEmail(email)
     const isMatch = await bcrypt.compare(password, user.dataValues.password)
     if (!isMatch) {
-      throw boom.unauthorized('unauthorized')
+      throw boom.unauthorized('Credentials do not match')
     }
     delete user.dataValues.password
     delete user.dataValues.recoveryToken
@@ -81,8 +81,8 @@ class AuthService {
       from: `"Sistema de archivos cdguedez" ${config.smtpEmail}`,
       to: `${user.email}`,
       subject: `Hola ${user.username} has solicitado recuperar tu contraseña`,
-      text: `Has solicitado cambiar tu contraseña en nuestro sistema de archivos. ingresa en ${link} para cambiarla`,
-      html: `<b>Has solicitado cambiar tu contraseña en nuestro sistema de archivos. ingresa en el siguiente <a href=${link}>Link</a> para cambiarla</b>`,
+      text: `Has solicitado cambiar tu contraseña en nuestro sistema de archivos. ingresa en ${link} para cambiarla, link valido por 10 minutos.`,
+      html: `<b>Has solicitado cambiar tu contraseña en nuestro sistema de archivos. ingresa en el siguiente <a href=${link}>Link</a> para cambiarla, link valido por 10 minutos.</b>`,
     }
     const rta = await this.sendMail(info)
     return rta
