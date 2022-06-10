@@ -56,7 +56,7 @@ class AuthService {
       html: `<b>Has cambiado tu contraseña de forma exitosa, ya puedes ingresar de nuevo.</b>`,
     }
     const rta = await this.sendMail(info)
-    return { message: 'password changed', rta }
+    return { message: 'Password updated successfully', rta }
   }
 
   async sendRegister(email) {
